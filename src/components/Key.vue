@@ -60,7 +60,9 @@
 	$isPlaceholder: v-bind("props.placeholder");
 	$bgcolor: cornflowerblue;
 	$bgcolor: unset;
-	$shadowColor: rgba(0, 0, 0, 0.5);
+
+	$shadowColorInLight: rgba(0, 0, 0, 0.5);
+	$shadowColorInDark: rgba(255, 255, 255, 0.7);
 
 	.keyContainer {
 		width: v-bind("width");
@@ -77,8 +79,15 @@
 		.key {
 			background-color: $bgcolor;
 			border-radius: 0.5em;
-			border: solid 0.1em $shadowColor;
-			box-shadow: 0 0 0 $shadowColor;
+
+			@media (prefers-color-scheme: light) {
+				border: solid 0.1em $shadowColorInLight;
+				box-shadow: 0 0 0 $shadowColorInLight;
+			}
+			@media (prefers-color-scheme: dark) {
+				border: solid 0.1em $shadowColorInDark;
+				box-shadow: 0 0 0 $shadowColorInDark;
+			}
 
 			width: 100%;
 			height: 100%;
@@ -93,7 +102,12 @@
 			scale: 100%;
 
 			&:hover {
-				box-shadow: 0 0 0.5em $shadowColor;
+				@media (prefers-color-scheme: light) {
+					box-shadow: 0 0 0.5em $shadowColorInLight;
+				}
+				@media (prefers-color-scheme: dark) {
+					box-shadow: 0 0 0.5em $shadowColorInDark;
+				}
 			}
 
 			&:active {

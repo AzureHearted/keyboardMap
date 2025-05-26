@@ -159,19 +159,26 @@
 </script>
 
 <style lang="scss" scoped>
+	$bgcolor: antiquewhite;
+	$shadowColorInLight: rgba(0, 0, 0, 0.7);
+	$shadowColorInDark: rgba(255, 255, 255, 0.7);
+
 	/* 104布局的键盘框架 */
 	.framework {
-		$bgcolor: antiquewhite;
-		$shadowColor: rgba(0, 0, 0, 0.7);
-
 		/* background-color: $bgcolor; */
 
 		padding: 0.25em;
 		border-radius: 0.5em;
-		border: solid 0.1em $shadowColor;
+		@media (prefers-color-scheme: light) {
+			border: solid 0.1em $shadowColorInLight;
+		}
+		@media (prefers-color-scheme: dark) {
+			border: solid 0.1em $shadowColorInDark;
+		}
 		display: flex;
 		gap: 0.5em;
 	}
+
 	/* 键盘主要区 */
 	.main-zone {
 		.row {
