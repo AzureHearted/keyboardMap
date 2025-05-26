@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-	import { withDefaults, computed } from "vue";
+	import { computed } from "vue";
 	const props = withDefaults(
 		defineProps<{
 			ou?: string; // 1u单位的长度
@@ -80,15 +80,6 @@
 			background-color: $bgcolor;
 			border-radius: 0.5em;
 
-			@media (prefers-color-scheme: light) {
-				border: solid 0.1em $shadowColorInLight;
-				box-shadow: 0 0 0 $shadowColorInLight;
-			}
-			@media (prefers-color-scheme: dark) {
-				border: solid 0.1em $shadowColorInDark;
-				box-shadow: 0 0 0 $shadowColorInDark;
-			}
-
 			width: 100%;
 			height: 100%;
 			display: flex;
@@ -100,6 +91,15 @@
 			transition: inherit;
 
 			scale: 100%;
+
+			@media (prefers-color-scheme: light) {
+				border: solid 0.1em $shadowColorInLight;
+				box-shadow: 0 0 0 $shadowColorInLight;
+			}
+			@media (prefers-color-scheme: dark) {
+				border: solid 0.1em $shadowColorInDark;
+				box-shadow: 0 0 0 $shadowColorInDark;
+			}
 
 			&:hover {
 				@media (prefers-color-scheme: light) {

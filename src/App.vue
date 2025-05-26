@@ -169,14 +169,15 @@
 
 		padding: 0.25em;
 		border-radius: 0.5em;
+		display: flex;
+		gap: 0.5em;
+
 		@media (prefers-color-scheme: light) {
 			border: solid 0.1em $shadowColorInLight;
 		}
 		@media (prefers-color-scheme: dark) {
 			border: solid 0.1em $shadowColorInDark;
 		}
-		display: flex;
-		gap: 0.5em;
 	}
 
 	/* 键盘主要区 */
