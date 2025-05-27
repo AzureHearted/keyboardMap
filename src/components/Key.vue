@@ -8,6 +8,7 @@
 			class="key"
 			:class="{
 				placeholder: placeholder,
+				press: !placeholder ? press : false,
 			}">
 			<slot v-if="!placeholder"></slot>
 		</div>
@@ -23,6 +24,7 @@
 			hu?: number; // 高度(单位U)
 			placeholder?: boolean; // 是否是占位符
 			gridItem?: boolean; // 是否是grid元素
+			press?: boolean; // 是否按下
 		}>(),
 		{
 			ou: "3em",
@@ -30,6 +32,7 @@
 			hu: 1,
 			placeholder: false,
 			gridItem: false,
+			press: false,
 		}
 	);
 
@@ -58,12 +61,13 @@
 
 <style lang="scss" scoped>
 	$isPlaceholder: v-bind("props.placeholder");
-	$bgcolor: cornflowerblue;
 	$bgcolor: unset;
+	$bgcolor-press: cornflowerblue;
 
 	$shadowColorInLight: rgba(0, 0, 0, 0.5);
 	$shadowColorInDark: rgba(255, 255, 255, 0.7);
 
+	/* 按键容器 */
 	.keyContainer {
 		width: v-bind("width");
 		height: v-bind("height");
@@ -76,6 +80,7 @@
 
 		transition: 0.25s ease;
 
+		/* 按键样式 */
 		.key {
 			background-color: $bgcolor;
 			border-radius: 0.5em;
@@ -110,10 +115,23 @@
 				}
 			}
 
+			/* 按键按下和激活的样式 */
+			&.press,
 			&:active {
 				scale: 90%;
+				background-color: $bgcolor-press;
+
+				@media (prefers-color-scheme: light) {
+					color: white;
+					box-shadow: 0 0 0.5em $shadowColorInLight;
+				}
+				@media (prefers-color-scheme: dark) {
+					color: black;
+					box-shadow: 0 0 0.5em $shadowColorInDark;
+				}
 			}
 		}
+		/* 占位符样式 */
 		.placeholder {
 			background-color: unset;
 			border: unset;
