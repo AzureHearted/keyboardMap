@@ -117,7 +117,7 @@
 
 			/* 按键按下和激活的样式 */
 			&.press,
-			&:active {
+			&:active:not(.placeholder) {
 				scale: 90%;
 				background-color: $bgcolor-press;
 

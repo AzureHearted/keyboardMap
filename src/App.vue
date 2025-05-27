@@ -1,5 +1,5 @@
 <template>
-	<div class="framework">
+	<div class="framework" @contextmenu.prevent>
 		<!-- 主要区域 -->
 		<div class="main-zone">
 			<div class="row" style="margin-bottom: 0.3em">
@@ -313,6 +313,15 @@
 	onKeyStroke((e) => {
 		isCapsLockOn.value = e.getModifierState?.("CapsLock") ?? false;
 	});
+
+	//z 阻止默认按键事件
+	document.addEventListener(
+		"keydown",
+		function (event) {
+			event.preventDefault(); // 阻止默认行为
+		},
+		{ passive: false }
+	); // 必须设置 passive: false 才能成功阻止
 </script>
 
 <style lang="scss" scoped>
