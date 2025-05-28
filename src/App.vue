@@ -53,7 +53,7 @@
 				<Key :press="backslash" :wu="1.5">\</Key>
 			</div>
 			<div class="row">
-				<Key :press="isCapsLockOn" :wu="1.75">CapsLock</Key>
+				<Key :press="capsLock" :wu="1.75">CapsLock</Key>
 				<Key :press="a">A</Key>
 				<Key :press="s">S</Key>
 				<Key :press="d">D</Key>
@@ -95,9 +95,9 @@
 		<!-- 控制区 -->
 		<div class="control-zone">
 			<div class="row" style="margin-bottom: 0.3em">
-				<Key>Print Screen</Key>
-				<Key>Scroll Lock</Key>
-				<Key>Pause Break</Key>
+				<Key :press="print">Print Screen</Key>
+				<Key :press="scrollLock">Scroll Lock</Key>
+				<Key :press="pause">Pause Break</Key>
 			</div>
 			<div class="row">
 				<Key :press="insert">Insert</Key>
@@ -132,7 +132,7 @@
 				<Key placeholder />
 			</div>
 			<div class="numpad">
-				<Key>Num Lock</Key>
+				<Key :press="numLock">Num Lock</Key>
 				<Key :press="numpadDivide">/</Key>
 				<Key :press="numpadMultiply">*</Key>
 				<Key :press="numpadSubtract">-</Key>
@@ -188,9 +188,8 @@
 </template>
 
 <script setup lang="ts">
-	import { onKeyStroke, useMagicKeys } from "@vueuse/core";
+	import { useKeyModifier, useMagicKeys } from "@vueuse/core";
 	import Key from "./components/Key.vue";
-	import { ref } from "vue";
 
 	const {
 		q,
@@ -292,6 +291,8 @@
 		end,
 		insert,
 		del,
+		pause,
+		print,
 	} = useMagicKeys({
 		aliasMap: {
 			n1: "1",
@@ -309,10 +310,9 @@
 		},
 	});
 
-	const isCapsLockOn = ref(false);
-	onKeyStroke((e) => {
-		isCapsLockOn.value = e.getModifierState?.("CapsLock") ?? false;
-	});
+	const capsLock = useKeyModifier("CapsLock", { initial: false });
+	const scrollLock = useKeyModifier("ScrollLock", { initial: false });
+	const numLock = useKeyModifier("NumLock", { initial: false });
 
 	//z 阻止默认按键事件
 	document.addEventListener(
