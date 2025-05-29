@@ -9,6 +9,7 @@
 			:class="{
 				placeholder: placeholder,
 				press: !placeholder ? press : false,
+				showBlindTypingGuides: !placeholder ? showBlindTypingGuides : false,
 			}">
 			<slot v-if="!placeholder"></slot>
 		</div>
@@ -25,6 +26,7 @@
 			placeholder?: boolean; // 是否是占位符
 			gridItem?: boolean; // 是否是grid元素
 			press?: boolean; // 是否按下
+			showBlindTypingGuides?: boolean; // 是否显示盲打定位点
 		}>(),
 		{
 			ou: "3em",
@@ -33,6 +35,7 @@
 			placeholder: false,
 			gridItem: false,
 			press: false,
+			showBlindTypingGuides: false,
 		}
 	);
 
@@ -67,10 +70,14 @@
 	$shadowColorInLight: rgba(0, 0, 0, 0.5);
 	$shadowColorInDark: rgba(255, 255, 255, 0.7);
 
+	$key-width: v-bind("width");
+	$key-height: v-bind("height");
+
 	/* 按键容器 */
 	.keyContainer {
-		width: v-bind("width");
-		height: v-bind("height");
+		position: relative;
+		width: $key-width;
+		height: $key-height;
 		padding: 0.05em;
 		display: flex;
 		align-items: center;
@@ -80,7 +87,7 @@
 
 		transition: 0.25s ease;
 
-		/* 按键样式 */
+		/*z 按键样式 */
 		.key {
 			background-color: $bgcolor;
 			border-radius: 0.5em;
@@ -100,10 +107,12 @@
 			@media (prefers-color-scheme: light) {
 				border: solid 0.1em $shadowColorInLight;
 				box-shadow: 0 0 0 $shadowColorInLight;
+				text-shadow: 0 0 0.1em $shadowColorInLight;
 			}
 			@media (prefers-color-scheme: dark) {
 				border: solid 0.1em $shadowColorInDark;
 				box-shadow: 0 0 0 $shadowColorInDark;
+				text-shadow: 0 0 0.1em $shadowColorInDark;
 			}
 
 			&:hover {
@@ -124,14 +133,49 @@
 				@media (prefers-color-scheme: light) {
 					color: white;
 					box-shadow: 0 0 0.5em $shadowColorInLight;
+					text-shadow: 0 0 0.1em $shadowColorInDark;
 				}
 				@media (prefers-color-scheme: dark) {
 					color: black;
 					box-shadow: 0 0 0.5em $shadowColorInDark;
+					text-shadow: 0 0 0.1em $shadowColorInLight;
+				}
+			}
+
+			/*z 盲打定位点样式 */
+			&.showBlindTypingGuides {
+				&::before {
+					content: "";
+					position: absolute;
+					width: calc($key-width * 0.3);
+					height: 0;
+					top: calc($key-height - 0.1em);
+					border-radius: 0.15em;
+
+					@media (prefers-color-scheme: light) {
+						border-bottom: 0.15em solid black;
+						box-shadow: 0 0 0.2em $shadowColorInLight;
+					}
+					@media (prefers-color-scheme: dark) {
+						border-bottom: 0.15em solid white;
+						box-shadow: 0 0 0.2em $shadowColorInDark;
+					}
+				}
+				&:active:not(.placeholder)::before,
+				&.press::before {
+					@media (prefers-color-scheme: light) {
+						border-bottom: 0.15em solid white;
+						box-shadow: 0 0 0.2em black;
+					}
+					@media (prefers-color-scheme: dark) {
+						border-bottom: 0.15em solid black;
+						box-shadow: 0 0 0.2em white;
+					}
 				}
 			}
 		}
-		/* 占位符样式 */
+
+		/*z 占位符样式 */
 		.placeholder {
 			background-color: unset;
 			border: unset;
