@@ -1,5 +1,5 @@
 <template>
-	<div class="keyboard" @contextmenu.prevent>
+	<div class="framework" @contextmenu.prevent>
 		<!-- 主要区域 -->
 		<div class="main-zone">
 			<div class="row" style="margin-bottom: 0.3em">
@@ -57,10 +57,10 @@
 				<Key :press="a">A</Key>
 				<Key :press="s">S</Key>
 				<Key :press="d">D</Key>
-				<Key :press="f">F</Key>
+				<Key :press="f" show-blind-typing-guides>F</Key>
 				<Key :press="g">G</Key>
 				<Key :press="h">H</Key>
-				<Key :press="j">J</Key>
+				<Key :press="j" show-blind-typing-guides>J</Key>
 				<Key :press="k">K</Key>
 				<Key :press="l">L</Key>
 				<Key :press="semicolon">;</Key>
@@ -154,7 +154,11 @@
 				<Key :press="numpad4" grid-item style="grid-row: 3; grid-column: 1"
 					>4</Key
 				>
-				<Key :press="numpad5" grid-item style="grid-row: 3; grid-column: 2"
+				<Key
+					:press="numpad5"
+					grid-item
+					style="grid-row: 3; grid-column: 2"
+					show-blind-typing-guides
 					>5</Key
 				>
 				<Key :press="numpad6" grid-item style="grid-row: 3; grid-column: 3"
@@ -330,7 +334,7 @@
 	$shadowColorInDark: rgba(255, 255, 255, 0.7);
 
 	/* 104布局的键盘框架 */
-	.keyboard {
+	.framework {
 		/* background-color: $bgcolor; */
 
 		padding: 0.25em;
