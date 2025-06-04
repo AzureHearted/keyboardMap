@@ -1,5 +1,5 @@
 <template>
-	<div class="framework" @contextmenu.prevent>
+	<div class="framework" ref="refFramework" @contextmenu.prevent>
 		<!-- 主要区域 -->
 		<div class="main-zone">
 			<div class="row" style="margin-bottom: 0.3em">
@@ -194,6 +194,18 @@
 <script setup lang="ts">
 	import { useKeyModifier, useMagicKeys } from "@vueuse/core";
 	import Key from "./Key.vue";
+	import { onMounted, ref, watch } from "vue";
+
+	const refFramework = ref<HTMLElement>();
+	// 页面加载完成后自动获取焦点
+	onMounted(() => {
+		// 将焦点设置到特定的元素上
+		refFramework.value?.focus();
+
+		// 或者将焦点设置到输入框上
+		// const focusInput = document.getElementById("focusInput");
+		// focusInput.focus();
+	});
 
 	const {
 		q,
@@ -297,6 +309,7 @@
 		del,
 		pause,
 		print,
+		current,
 	} = useMagicKeys({
 		aliasMap: {
 			n1: "1",
@@ -326,6 +339,19 @@
 		},
 		{ passive: false }
 	); // 必须设置 passive: false 才能成功阻止
+
+	watch(current, async (value) => {
+		const obj = await window?.chrome?.webview?.hostObjects?.ahk;
+		const keys = [...value];
+		if (keys.length > 0) {
+			obj!.debug(keys.join("+"));
+		}
+	});
+
+	onMounted(async () => {
+		const obj = await window?.chrome?.webview?.hostObjects?.ahk;
+		obj!.debug("成功与AHK进行链接🔗");
+	});
 </script>
 
 <style lang="scss" scoped>
